@@ -1,0 +1,14 @@
+.app {
+  font-family: "Inter", Arial, Helvetica, sans-serif;
+
+  background-color: #202020;
+
+  min-width: 320px;
+  min-height: 100vh;
+
+  margin: 0 auto;
+}
+
+.app__header {
+  background-color: #073042;
+}
