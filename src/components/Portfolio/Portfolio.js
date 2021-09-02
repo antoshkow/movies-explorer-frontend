@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import './Portfolio.css';
 import arrow from '../../images/arrow-main.svg';
 
@@ -11,50 +10,56 @@ function Portfolio() {
           Портфолио
         </h2>
         <ul className="portfolio__links">
-          <li className="portfolio__link">
+          <li className="portfolio__link-border">
             <a
+              className="portfolio__link"
               href="https://how-to-learn-kohl.vercel.app"
-              className="portfolio__link-name"
               target="_blank"
               rel="noreferrer"
             >
-              Статичный сайт
+              <p className="portfolio__link-name">
+                Статичный сайт
+              </p>
+              <img
+                src={arrow}
+                alt="Декоративная стрелка"
+                className="portfolio__arrow"
+              />
             </a>
-            <img
-              src={arrow}
-              alt="Декоративная стрелка"
-              className="portfolio__arrow"
-            />
           </li>
-          <li className="portfolio__link">
+          <li className="portfolio__link-border">
             <a
+              className="portfolio__link"
               href="https://antoshkow.github.io/russian-travel/"
-              className="portfolio__link-name"
               target="_blank"
               rel="noreferrer"
             >
-              Адапивный сайт
+              <p className="portfolio__link-name">
+                Адапивный сайт
+              </p>
+              <img
+                src={arrow}
+                alt="Декоративная стрелка"
+                className="portfolio__arrow"
+              />
             </a>
-            <img
-              src={arrow}
-              alt="Декоративная стрелка"
-              className="portfolio__arrow"
-            />
           </li>
-          <li className="portfolio__link">
+          <li className="portfolio__link-border">
             <a
-              href="https://antoshkow.mesto.nomoredomains.club/sign-in"
-              className="portfolio__link-name"
+              className="portfolio__link"
+              href="https://antoshkow.mesto.nomoredomains.club"
               target="_blank"
               rel="noreferrer"
             >
-              Одностраничное приложение
+              <p className="portfolio__link-name">
+                Одностраничное приложение
+              </p>
+              <img
+                src={arrow}
+                alt="Декоративная стрелка"
+                className="portfolio__arrow"
+              />
             </a>
-            <img
-              src={arrow}
-              alt="Декоративная стрелка"
-              className="portfolio__arrow"
-            />
           </li>
         </ul>
       </div>

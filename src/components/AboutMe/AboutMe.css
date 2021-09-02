@@ -2,6 +2,7 @@
   margin: auto;
 
   max-width: 1280px;
+  width: 90vw;
 }
 
 .about-me__container {
@@ -11,19 +12,24 @@
 }
 
 .about-me__avatar {
+  background-image: url(../../images/avatar.png);
+  background-size: contain;
+
   position: absolute;
   top: 66px;
   right: 0;
 
   width: 319px;
   height: 338px;
+
+  border-radius: 10px;
 }
 
 .about-me__title {
   font-weight: 400;
   font-size: 50px;
   line-height: 58px;
-  letter-spacing: -0.04em;
+  letter-spacing: -.04em;
 
   max-width: 600px;
 
@@ -52,6 +58,8 @@
 
   max-width: 600px;
 
+  margin: 0;
+
   color: #fff;
 }
 
@@ -78,16 +86,16 @@
 
   text-decoration: none;
 
+  transition: opacity 1s linear .1s;;
   cursor: pointer;
 }
 
-.about-me__link:last-child {
-  margin-right: 0;
+.about-me__link:hover {
+  opacity: .7;
 }
 
-@media screen and (min-width: 768px) and (max-width: 1279px) {
+@media screen and (max-width: 1279px) {
   .about-me {
-    max-width: 1279px;
     max-width: 85vw;
   }
 
@@ -124,5 +132,68 @@
 
   .about-me__links {
     margin: 34px 0 0;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .about-me {
+    max-width: 90vw;
+  }
+
+  .about-me__container {
+    text-align: center;
+
+    padding-bottom: 69px;
+  }
+
+
+  .about-me__avatar {
+    position: static;
+
+    margin: 60px auto 40px;
+
+    align-items: center;
+
+    width: 290px;
+    height: 307px;
+  }
+
+  .about-me__title {
+    font-size: 30px;
+    line-height: 36px;
+
+    padding-top: 0;
+  }
+
+  .about-me__description {
+    font-size: 11px;
+    line-height: 16px;
+
+    margin: 20px 0;
+  }
+
+  .about-me__article {
+    font-size: 11px;
+    line-height: 16px;
+
+    max-width: 600px;
+  }
+
+  .about-me__links {
+    margin: 40px 0 0;
+  }
+
+  .about-me__link {
+    margin-right: 26px;
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .about-me__container {
+    text-align: left;
+  }
+
+  .about-me__article {
+    max-width: 364px;
   }
 }

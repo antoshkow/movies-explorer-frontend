@@ -12,61 +12,53 @@ import Footer from '../Footer/Footer';
 import NotFound from '../NotFound/NotFound';
 
 function App() {
-  const location = useLocation();
-
   return (
     <div className="app">
-      <div
-        className={
-          location.pathname === '/' ? 'app__header' : ''
-        }
-      >
-        <Header />
-      </div>
-      <main>
-        <Switch>
-          <Route
-            exact
-            path="/"
-            component={Main}
-          />
-          <Route
-            path="/movies"
-            component={Movies}
-          //  Страница фильмы
-          // Нажатие на фильмы
-          />
-          {/* <Route
+      <Switch>
+        <Route
+          exact
+          path="/"
+        >
+          <div className="app__header">
+            <Header />
+          </div>
+          <Main />
+          <Footer />
+        </Route>
+        <Route
+          path="/movies"
+        >
+          <div>
+            <Header />
+          </div>
+          <Movies />
+          <Footer />
+        </Route>
+        {/* <Route
             path="/saved-movies"
             component={SavedMovies}
           // Страница сохраненные фильмы
           // Нажатие на сохраненные фильмы
           /> */}
+        <Route
+          path="/signin"
+          component={Login}
+        />
+        <Route
+          path="/signup"
+          component={Register}
+        />
           {/* <Route
             path="/profile"
             component={Profile}
           // Страница с профилем пользователя
           // Нажатие на аккаунт
           /> */}
-          {/* <Route
-            path="/signin"
-            component={Login}
-          /* Страница авторизации */
-          /* Нажатие на авторизация
-          /> */}
-          {/* <Route
-            path="/signup"
-            component={Register}
-        //  Страница регистрации
-        //    Нажатие на регистрация
-          /> */}
-          {/* <Route
-            path="*"
-            component={NotFound}
-          /> */}
-        </Switch>
-      </main>
-      <Footer />
+        <Route
+          path="*"
+          component={NotFound}
+        />
+      </Switch>
     </div>
   );
 }

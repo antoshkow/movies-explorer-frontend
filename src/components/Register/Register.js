@@ -1,58 +1,101 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import './Register.css';
-import logo from '../../images/logo.svg';
+import Logo from '../Logo/Logo';
 
 function Register() {
+  const history = useHistory();
+
+  const handleClick = (evt) => {
+    evt.preventDefault();
+    history.push('/signin');
+  }
+
   return (
-    <section className="register">
+    <main className="auth">
       <form
         noValidate
-        className="register__form"
+        className="auth__form"
         name="form-register"
+        onSubmit={handleClick}
       >
-        <img src={logo} alt="Лого MoviesExplorer" />
-        <h2 className="register__title">Регистрация</h2>
+        <div className="auth__logo">
+          <Logo />
+        </div>
+        <h1 className="auth__title">
+          Добро пожаловать!
+        </h1>
+        <span className="auth__placeholder">
+          Имя
+        </span>
+        <input
+          required
+          className="auth__input"
+          type="name"
+          minLength="2"
+          maxLength="40"
+          name="name-register"
+        />
+        <span
+          className="auth__error"
+          id="auth-name-error"
+        >
+          Что-то пошло не так...
+        </span>
+        <p className="auth__placeholder">
+          E-mail
+        </p>
         <input
           required
           className="auth__input"
           type="email"
-          placeholder="Email"
           minLength="5"
           maxLength="40"
           name="email-register"
         />
-        <input
-          required
-          className="auth__input"
-          type="email"
-          placeholder="Email"
-          minLength="5"
-          maxLength="40"
-          name="email-register"
-        />
+        <span
+          className="auth__error"
+          id="auth-email-error"
+        >
+          Пользователь с таким email уже существует.
+        </span>
+        <p className="auth__placeholder">
+          Пароль
+        </p>
         <input
           required
           className="auth__input"
           type="password"
-          placeholder="Пароль"
           minLength="5"
           maxLength="40"
           name="password-register"
         />
         <span
-        className="popup__error"
-        id="popup-avatar-link-error"
-      />
+          className="auth__error"
+          id="auth-password-error"
+        >
+          Что-то пошло не так...
+        </span>
         <button
           type="submit"
           className="auth__btn"
+          onClick={handleClick}
         >
           Зарегистрироваться
         </button>
-        <Link className="auth__link" to="/signin">Уже зарегистрированы? Войти</Link>
+        <div className="auth__bottom">
+          <p className="auth__question">
+            Уже зарегистрированы?
+          </p>
+          <Link
+            className="auth__link"
+            to="/signin"
+          >
+            Войти
+          </Link>
+        </div>
       </form>
-    </section>
+    </main>
   );
 }
 

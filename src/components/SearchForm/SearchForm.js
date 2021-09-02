@@ -1,23 +1,39 @@
 import React from 'react';
 import './SearchForm.css';
-import loop from'../../images/loop_icon.svg';
+import loopBtn from'../../images/loop_icon_btn.svg';
+import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 
 function SearchForm() {
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+  }
+
   return (
-    <form className="search-form">
-      <img
-        src={loop}
-        alt="Иконка поиска"
-      />
-      <input
-        className="search-form__input"
-      />
-      <button>
-        <img
-          src={loop}
-          alt="Иконка поиска"
+    <form
+      noValidate
+      className="search-form"
+      id="search-form"
+      onSubmit={handleSubmit}
+    >
+      <fieldset className="search-form__fieldset">
+        <div className="search-form__icon" />
+        <input
+          required
+          className="search-form__input"
+          placeholder="Фильм"
+          type="text"
+          minLength="1"
+          maxLength="40"
+          name="name-search"
         />
-      </button>
+      </fieldset>
+      <fieldset className="search-form__fieldset">
+        <button
+          type="submit"
+          className="search-form__btn"
+        />
+        <FilterCheckbox />
+      </fieldset>
     </form>
   );
 }

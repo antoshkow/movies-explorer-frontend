@@ -1,17 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import './AboutMe.css';
-import avatar from '../../images/avatar.png';
 
 function AboutMe() {
   return (
     <section className="about-me">
       <article className="about-me__container">
-        <img
-          src={avatar}
-          className="about-me__avatar"
-          alt="Фото разработчика"
-        />
+        <div className="about-me__avatar" />
         <h2 className="about-me__title">
           Антон
         </h2>
