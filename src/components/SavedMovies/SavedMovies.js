@@ -6,9 +6,14 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 
 function SavedMovies() {
   return (
-    <section>
-      <SearchForm />
-      <MoviesCardList />
+    <section className="movies">
+      <div className="movies__search">
+        <SearchForm />
+      </div>
+      <div className="movies__cards">
+        {/* <Preloader /> */}
+        <MoviesCardList />
+      </div>
     </section>
   );
 }

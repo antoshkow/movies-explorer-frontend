@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory, NavLink } from 'react-router-dom';
 import profileIcon from '../../images/profile_icon.svg';
 import './Navigation.css';
 
@@ -13,18 +13,20 @@ function Navigation() {
   return (
     <nav className="navigation">
       <div className="navigation__left">
-        <Link
+        <NavLink
           to="/movies"
           className="navigation__link"
+          activeClassName="navigation__link_active"
         >
           Фильмы
-        </Link>
-        <Link
+        </NavLink>
+        <NavLink
           to="/saved-movies"
           className="navigation__link"
+          activeClassName="navigation__link_active"
         >
           Сохранённые фильмы
-        </Link>
+        </NavLink>
       </div>
       <button
         type="button"

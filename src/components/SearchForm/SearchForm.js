@@ -1,6 +1,5 @@
 import React from 'react';
 import './SearchForm.css';
-import loopBtn from'../../images/loop_icon_btn.svg';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 
 function SearchForm() {
@@ -15,7 +14,9 @@ function SearchForm() {
       id="search-form"
       onSubmit={handleSubmit}
     >
-      <fieldset className="search-form__fieldset">
+      <fieldset
+        className="search-form__fieldset search-form__fieldset_left "
+      >
         <div className="search-form__icon" />
         <input
           required

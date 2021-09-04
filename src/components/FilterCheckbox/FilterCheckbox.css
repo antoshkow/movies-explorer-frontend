@@ -1,20 +1,9 @@
-@keyframes check {
-  0% {
-    transform: translate(20%, 0);
-  }
-  50% {
-    transform: translate(50%, 0);
-  }
-  100% {
-    transform: translate(80%, 0);
-  }
-}
-
 .filter-checkbox {
   display: flex;
   align-items: center;
 
   height: 40px;
+  width: 250px;
 
   border-left: 1px solid #424242;
 }
@@ -52,7 +41,7 @@
   margin-right: 14px;
 
   cursor: pointer;
-  transition: check 1s linear .1s;
+  transition: all 1s;
 }
 
 .filter-checkbox__input:checked+label::before {
@@ -71,9 +60,9 @@
   background-size: 45%;
 }
 
-/* .filter-checkbox__input:not(:disabled):not(:checked)+label:hover::before {
+.filter-checkbox__input:not(:disabled)+label:hover::before {
   opacity: .8;
-} */
+}
 
 .filter-checkbox__label {
   font-weight: 400;

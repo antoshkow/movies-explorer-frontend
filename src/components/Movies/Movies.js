@@ -7,9 +7,13 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 function Movies() {
   return (
     <main className="movies">
-      <SearchForm />
-      <Preloader />
-      <MoviesCardList />
+      <div className="movies__search">
+        <SearchForm />
+      </div>
+      <div className="movies__cards">
+        {/* <Preloader /> */}
+        <MoviesCardList />
+      </div>
     </main>
   );
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route, useLocation } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import './App.css';
 import Header from '../Header/Header';
 import Main from '../Main/Main';
@@ -28,18 +28,25 @@ function App() {
         <Route
           path="/movies"
         >
-          <div>
-            <Header />
+          <div className="app__wrapper">
+            <div>
+              <Header />
+            </div>
+            <Movies />
+            <Footer />
           </div>
-          <Movies />
-          <Footer />
         </Route>
-        {/* <Route
-            path="/saved-movies"
-            component={SavedMovies}
-          // Страница сохраненные фильмы
-          // Нажатие на сохраненные фильмы
-          /> */}
+        <Route
+          path="/saved-movies"
+        >
+          <div className="app__wrapper">
+            <div>
+              <Header />
+            </div>
+            <SavedMovies />
+            <Footer />
+          </div>
+        </Route>
         <Route
           path="/signin"
           component={Login}
@@ -48,12 +55,12 @@ function App() {
           path="/signup"
           component={Register}
         />
-          {/* <Route
-            path="/profile"
-            component={Profile}
-          // Страница с профилем пользователя
-          // Нажатие на аккаунт
-          /> */}
+        <Route
+          path="/profile"
+        >
+          <Header />
+          <Profile />
+        </Route>
         <Route
           path="*"
           component={NotFound}

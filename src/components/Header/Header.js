@@ -27,6 +27,18 @@ function Header() {
       >
         <Navigation />
       </Route>
+      <Route
+        exact
+        path="/saved-movies"
+      >
+        <Navigation />
+      </Route>
+      <Route
+        exact
+        path="/profile"
+      >
+        <Navigation />
+      </Route>
       {/* <div className='header__auth'>
         <Route exact path="/">
           <p className="header__email">Email</p>
