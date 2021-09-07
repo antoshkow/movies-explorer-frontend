@@ -17,22 +17,24 @@ function SearchForm() {
       <fieldset
         className="search-form__fieldset search-form__fieldset_left "
       >
-        <div className="search-form__icon" />
-        <input
-          required
-          className="search-form__input"
-          placeholder="Фильм"
-          type="text"
-          minLength="1"
-          maxLength="40"
-          name="name-search"
-        />
-      </fieldset>
-      <fieldset className="search-form__fieldset">
+        <label className="search-form__search">
+          <div className="search-form__icon" />
+          <input
+            required
+            className="search-form__input"
+            placeholder="Фильм"
+            type="text"
+            minLength="1"
+            maxLength="40"
+            name="name-search"
+          />
+        </label>
         <button
           type="submit"
           className="search-form__btn"
         />
+      </fieldset>
+      <fieldset className="search-form__fieldset">
         <FilterCheckbox />
       </fieldset>
     </form>

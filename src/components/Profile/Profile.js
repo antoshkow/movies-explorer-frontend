@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import './Profile.css';
-import Header from '../Header/Header';
+import SubmitButton from '../SubmitButton/SubmitButton';
 
 function Profile() {
   const history = useHistory();
@@ -24,66 +24,63 @@ function Profile() {
   }
 
   return (
-    <main className="auth">
+    <main className="profile">
       <form
         noValidate
-        className="auth__form"
+        className="profile__form"
         name="form-login"
         onSubmit={handleClick}
       >
-        <h1 className="auth__title">
+        <h1 className="profile__title">
           Привет, Антон!
         </h1>
-        <label className="auth__placeholder">
+        <label className="profile__label">
           Имя
+          <input
+            required
+            className="profile__input"
+            type="name"
+            defaultValue="Антон"
+            minLength="5"
+            maxLength="40"
+            name="name-profile"
+          />
         </label>
-        <input
-          required
-          className="auth__input"
-          type="name"
-          defaultValue="Антон"
-          minLength="5"
-          maxLength="40"
-          name="email-login"
-        />
-        <label className="auth__placeholder">
+        <label className="profile__label">
           E-mail
+          <input
+            required
+            className="profile__input"
+            type="email"
+            defaultValue="qwerty@qwerty.ru"
+            minLength="5"
+            maxLength="40"
+            name="email-profile"
+          />
         </label>
-        <input
-          required
-          className="auth__input"
-          type="email"
-          defaultValue="qwerty@qwerty.ru"
-          minLength="5"
-          maxLength="40"
-          name="password-login"
-        />
         {
-          change ? (
-            <button
-            type="submit"
-            className="auth__btn auth__btn_login"
-            onClick={handleSaveClick}
-          >
-            Сохранить
-          </button>
-          ) : (
-            <div>
-            <button
-            type="submit"
-            className="auth__btn auth__btn_login"
-            onClick={handleClick}
-          >
-            Редактировать
-          </button>
-          <button
-            type="button"
-            className="auth__btn auth__btn_login"
-            onClick={handleExitClick}
-          >
-            Выйти из аккаунта
-          </button>
-          </div>
+          change ?
+            <SubmitButton
+              handleClick={handleSaveClick}
+              btnText="Сохранить"
+            />
+              : (
+            <>
+              <button
+                type="submit"
+                className="profile__btn"
+                onClick={handleClick}
+              >
+                Редактировать
+              </button>
+              <button
+                type="button"
+                className="profile__btn profile__btn_exit"
+                onClick={handleExitClick}
+              >
+                Выйти из аккаунта
+              </button>
+            </>
           )
         }
       </form>

@@ -1,17 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import './App.css';
 import Header from '../Header/Header';
 import Main from '../Main/Main';
-import Movies from '../Movies/Movies';
-import SavedMovies from '../SavedMovies/SavedMovies';
+import Movies from '../../pages/Movies';
+import SavedMovies from '../../pages/SavedMovies';
 import Profile from '../Profile/Profile';
-import Login from '../Login/Login';
-import Register from '../Register/Register';
+import Login from '../../pages/Login';
+import Register from '../../pages/Register';
 import Footer from '../Footer/Footer';
 import NotFound from '../NotFound/NotFound';
+import BurgerMenu from '../BurgerMenu/BurgerMenu';
 
 function App() {
+  const [isMenuActive, setIsMenuActive] = useState(false);
+
+  const handleMenuClick = () => {
+    setIsMenuActive(!isMenuActive);
+  }
+
+  const handleCloseMenuClick = () => {
+    setIsMenuActive(false)
+  }
+
   return (
     <div className="app">
       <Switch>
@@ -20,7 +31,9 @@ function App() {
           path="/"
         >
           <div className="app__header">
-            <Header />
+            <Header
+              handleMenuClick={handleMenuClick}
+            />
           </div>
           <Main />
           <Footer />
@@ -29,9 +42,14 @@ function App() {
           path="/movies"
         >
           <div className="app__wrapper">
-            <div>
-              <Header />
-            </div>
+            <BurgerMenu
+              isActive={isMenuActive}
+              handleCloseBurgerClick={handleCloseMenuClick}
+            />
+            <Header
+              handleMenuClick={handleMenuClick}
+              isActive={isMenuActive}
+            />
             <Movies />
             <Footer />
           </div>
@@ -40,9 +58,14 @@ function App() {
           path="/saved-movies"
         >
           <div className="app__wrapper">
-            <div>
-              <Header />
-            </div>
+            <BurgerMenu
+              isActive={isMenuActive}
+              handleCloseBurgerClick={handleCloseMenuClick}
+            />
+            <Header
+              handleMenuClick={handleMenuClick}
+              isActive={isMenuActive}
+            />
             <SavedMovies />
             <Footer />
           </div>
@@ -58,7 +81,14 @@ function App() {
         <Route
           path="/profile"
         >
-          <Header />
+          <BurgerMenu
+            isActive={isMenuActive}
+            handleCloseBurgerClick={handleCloseMenuClick}
+          />
+          <Header
+            handleMenuClick={handleMenuClick}
+            isActive={isMenuActive}
+          />
           <Profile />
         </Route>
         <Route

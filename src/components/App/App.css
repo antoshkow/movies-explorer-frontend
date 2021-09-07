@@ -17,5 +17,6 @@
   display: grid;
   grid-template-rows: auto 1fr auto;
 
+  transition: ease 1s;
   min-height: 100vh;
 }

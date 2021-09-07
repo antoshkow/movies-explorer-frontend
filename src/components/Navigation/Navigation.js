@@ -1,9 +1,11 @@
 import React from 'react';
-import { useHistory, NavLink } from 'react-router-dom';
-import profileIcon from '../../images/profile_icon.svg';
+import { useHistory } from 'react-router-dom';
+import menuIcon from '../../images/burger_icon.svg';
 import './Navigation.css';
+import NavigationLink from '../NavigationLink/NavigationLink';
+import NavigationButton from '../NavigationButton/NavigationButton';
 
-function Navigation() {
+function Navigation({ handleMenuClick, isActive }) {
   const history = useHistory();
 
   const handleProfileClick = () => {
@@ -13,32 +15,30 @@ function Navigation() {
   return (
     <nav className="navigation">
       <div className="navigation__left">
-        <NavLink
-          to="/movies"
-          className="navigation__link"
-          activeClassName="navigation__link_active"
-        >
-          Фильмы
-        </NavLink>
-        <NavLink
-          to="/saved-movies"
-          className="navigation__link"
-          activeClassName="navigation__link_active"
-        >
-          Сохранённые фильмы
-        </NavLink>
+        <NavigationLink
+          linkTo="movies"
+          linkText="Фильмы"
+        />
+        <NavigationLink
+          linkTo="/saved-movies"
+          linkText="Сохранённые фильмы"
+        />
+      </div>
+      <div className="navigation__right">
+        <NavigationButton
+          handleClick={handleProfileClick}
+        />
       </div>
       <button
         type="button"
-        className="navigation__profile-btn"
-        onClick={handleProfileClick}
+        onClick={handleMenuClick}
+        className={isActive ? 'navigation__burger navigation__burger_active' : 'navigation__burger'}
       >
         <img
-          src={profileIcon}
-          alt="Иконка профиля"
-          className="navigation__profile-icon"
+          className="navigation__img"
+          src={menuIcon}
+          alt="Иконка взаимодействия с меню"
         />
-        Аккаунт
       </button>
     </nav>
   );

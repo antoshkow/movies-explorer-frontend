@@ -5,7 +5,7 @@ import Logo from '../Logo/Logo';
 import AuthNavigation from '../AuthNavigation/AuthNavigation';
 import Navigation from '../Navigation/Navigation';
 
-function Header() {
+function Header({ handleMenuClick, isActive }) {
   const location = useLocation();
 
   return (
@@ -25,57 +25,29 @@ function Header() {
         exact
         path="/movies"
       >
-        <Navigation />
+        <Navigation
+          handleMenuClick={handleMenuClick}
+          isActive={isActive}
+        />
       </Route>
       <Route
         exact
         path="/saved-movies"
       >
-        <Navigation />
+        <Navigation
+          handleMenuClick={handleMenuClick}
+          isActive={isActive}
+        />
       </Route>
       <Route
         exact
         path="/profile"
       >
-        <Navigation />
+        <Navigation
+          handleMenuClick={handleMenuClick}
+          isActive={isActive}
+        />
       </Route>
-      {/* <div className='header__auth'>
-        <Route exact path="/">
-          <p className="header__email">Email</p>
-          <Link
-            to="/sign-in"
-            className="header__logout"
-          >
-            Выйти
-          </Link>
-          <button
-            className="header__burger"
-            type="button"
-          >
-            <img
-              className="header__img"
-              src={isMenuOpened ? closeIcon : menuIcon}
-              alt="Иконка взаимодействия с меню"
-            />
-          </button>
-        </Route>
-        <Route exact path="/sign-in">
-          <Link
-            to="/sign-up"
-            className="header__link"
-          >
-            Регистрация
-          </Link>
-        </Route>
-        <Route exact path="/sign-up">
-          <Link
-            to="/sign-in"
-            className="header__link"
-          >
-            Войти
-          </Link>
-        </Route>
-      </div> */}
     </header>
   );
 }

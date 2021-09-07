@@ -1,5 +1,4 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
 import './MoviesCardList.css';
 import pic1 from '../../images/pic_1.png';
 import pic2 from '../../images/pic_2.png';
@@ -14,18 +13,18 @@ import pic10 from '../../images/pic_10.png';
 import pic11 from '../../images/pic_11.png';
 import pic12 from '../../images/pic_12.png';
 import MoviesCard from '../MoviesCard/MoviesCard';
+import MoviesMoreButton from '../MoviesMoreButton/MoviesMoreButton';
 
-function MoviesCardList() {
-  const location = useLocation();
+function MoviesCardList({ isSavedMovies }) {
 
   const handleClick = (evt) => {
     evt.preventDefault();
   }
 
   return (
-    <section>
+    <>
       {
-        location.pathname === '/movies' &&
+        !isSavedMovies &&
           (
             <div className="movies-cards">
               <ul className="movies-cards__main">
@@ -90,18 +89,14 @@ function MoviesCardList() {
                   btnText="Сохранить"
                 />
               </ul>
-              <button
-                type="button"
-                className="movies-cards__btn"
-                onClick={handleClick}
-              >
-                Ещё
-              </button>
+              <MoviesMoreButton
+                handleClick={handleClick}
+              />
             </div>
           )
       }
       {
-        location.pathname === '/saved-movies' &&
+        isSavedMovies &&
           (
             <div className="movies-cards">
               <ul className="movies-cards__main">
@@ -124,7 +119,7 @@ function MoviesCardList() {
             </div>
         )
       }
-    </section>
+    </>
   );
 }
 
