@@ -1,0 +1,22 @@
+.app {
+  font-family: "Inter", Arial, Helvetica, sans-serif;
+
+  background-color: #202020;
+
+  min-width: 320px;
+  min-height: 100vh;
+
+  margin: 0 auto;
+}
+
+.app__header {
+  background-color: #073042;
+}
+
+.app__wrapper {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+
+  transition: ease 1s;
+  min-height: 100vh;
+}

@@ -1,0 +1,41 @@
+.profile-btn {
+  display: flex;
+  align-items: center;
+
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+
+  color: #fff;
+  background-color: transparent;
+
+  outline: none;
+  border: 2px solid rgba(170, 170, 170, 0.2);;
+  border-radius: 50px;
+
+  width: 100px;
+  height: 32px;
+
+  padding: 8px 12px;
+  margin-top: 4px;
+
+  cursor: pointer;
+  transition: opacity 1s linear .1s;
+}
+
+.profile-btn:hover {
+  opacity: .8;
+}
+
+.profile-btn__icon {
+  width: 12px;
+  height: 14px;
+
+  padding-right: 7px;
+}
+
+@media screen and (max-width: 768px) {
+  .profile-btn {
+    margin-top: 0;
+  }
+}

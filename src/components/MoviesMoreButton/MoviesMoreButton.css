@@ -1,0 +1,30 @@
+.movies-btn {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 15px;
+
+  color: #fff;
+  background: #2F2F2F;
+
+  outline: none;
+  border: none;
+  border-radius: 6px;
+
+  width: 320px;
+  height: 36px;
+
+  margin: 50px 0 80px;
+
+  cursor: pointer;
+  transition: opacity 1s linear .1s;
+}
+
+.movies-btn:hover {
+  opacity: .8;
+}
+
+@media screen and (max-width: 767px) {
+  .movies-btn {
+    width: 240px;
+  }
+}
