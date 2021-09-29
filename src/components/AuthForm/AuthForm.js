@@ -5,14 +5,11 @@ import Logo from '../Logo/Logo';
 import SubmitButton from '../SubmitButton/SubmitButton';
 
 function AuthForm({
-  handleSubmitClick, formName, formTitle,
+  handleSubmit, formName, formTitle,
   btnText, questionText, linkTo,
-  linkToText, children, authMod
+  linkToText, children, authMod,
+  isDisabled
 }) {
-  const handleClick = (evt) => {
-    evt.preventDefault();
-    handleSubmitClick();
-  }
 
   return (
     <main className="auth">
@@ -20,7 +17,7 @@ function AuthForm({
         noValidate
         className="auth__form"
         name={formName}
-        onSubmit={handleClick}
+        onSubmit={handleSubmit}
       >
         <div className="auth__logo">
           <Logo />
@@ -31,8 +28,8 @@ function AuthForm({
         {children}
         <SubmitButton
           authMod={authMod}
-          handleClick={handleClick}
           btnText={btnText}
+          isDisabled={isDisabled}
         />
         <div className="auth__bottom">
           <p className="auth__question">

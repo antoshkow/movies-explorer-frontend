@@ -5,7 +5,8 @@ import Logo from '../Logo/Logo';
 import AuthNavigation from '../AuthNavigation/AuthNavigation';
 import Navigation from '../Navigation/Navigation';
 
-function Header({ handleMenuClick, isActive }) {
+function Header({ handleMenuClick, isActive, isLoggedIn }) {
+
   const location = useLocation();
 
   return (
@@ -19,7 +20,14 @@ function Header({ handleMenuClick, isActive }) {
         exact
         path="/"
       >
-        <AuthNavigation />
+        {
+          isLoggedIn ?
+            <Navigation
+              handleMenuClick={handleMenuClick}
+              isActive={isActive}
+            /> :
+            <AuthNavigation />
+        }
       </Route>
       <Route
         exact

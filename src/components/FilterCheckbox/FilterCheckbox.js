@@ -1,15 +1,23 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import './FilterCheckbox.css';
 
-function FilterCheckbox() {
+function FilterCheckbox({ isFilterOn }) {
+
+  const checked = useRef();
+
+  const handleChange = () => {
+    isFilterOn(checked.current.checked);
+  }
+
   return (
     <div className="filter-checkbox">
       <input
-        required
         className="filter-checkbox__input"
         type="checkbox"
         name="filter-checkbox"
         id="filter-checkbox"
+        onChange={handleChange}
+        ref={checked}
       />
       <label
         htmlFor="filter-checkbox"

@@ -23,6 +23,10 @@
   opacity: .8;
 }
 
+.submit-btn_disabled {
+  opacity: .8;
+}
+
 .submit-btn_register {
   margin-top: 134px;
 }

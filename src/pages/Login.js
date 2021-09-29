@@ -1,18 +1,25 @@
-import React from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useEffect } from 'react';
 import AuthForm from '../components/AuthForm/AuthForm';
 import AuthInput from '../components/AuthInput/AuthInput';
+import { useFormWithValidation } from '../hooks/useForm';
 
-function Login() {
-  const history = useHistory();
+function Login({ handleLogin }) {
 
-  const handleClick = () => {
-    history.push('/movies');
+  const {
+    values, handleChange, resetForm,
+    errors, isValid
+  } = useFormWithValidation();
+
+  useEffect(() => resetForm({}), [resetForm]);
+
+  const handleSubmit = evt => {
+    evt.preventDefault();
+    handleLogin(values.emailLogin, values.passwordLogin);
   }
 
   return (
     <AuthForm
-      handleSubmitClick={handleClick}
+      handleSubmit={handleSubmit}
       formName="form-login"
       formTitle="Рады видеть!"
       btnText="Войти"
@@ -20,24 +27,29 @@ function Login() {
       linkTo="/signup"
       linkToText="Регистрация"
       authMod="submit-btn_login"
+      isDisabled={!isValid}
     >
       <AuthInput
         inputTitle="E-mail"
         inputType="email"
         inputMinLength="5"
         inputMaxLength="40"
-        inputName="email-login"
+        inputName="emailLogin"
         inputErrorId="auth-email-error"
-        inputError="Что-то пошло не так..."
+        inputError={errors.emailLogin || ''}
+        handleInputChange={handleChange}
+        value={values.emailLogin || ''}
       />
       <AuthInput
         inputTitle="Пароль"
         inputType="password"
         inputMinLength="5"
         inputMaxLength="40"
-        inputName="password-login"
+        inputName="passwordLogin"
         inputErrorId="auth-password-error"
-        inputError="Что-то пошло не так..."
+        inputError={errors.passwordLogin|| ''}
+        handleInputChange={handleChange}
+        value={values.passwordLogin || ''}
       />
     </AuthForm>
   );

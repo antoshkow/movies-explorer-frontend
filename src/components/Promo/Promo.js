@@ -3,6 +3,7 @@ import './Promo.css';
 import promoLogo from '../../images/landing_logo.svg';
 
 function Promo() {
+
   return (
     <section className="promo">
       <div className = "promo__container">

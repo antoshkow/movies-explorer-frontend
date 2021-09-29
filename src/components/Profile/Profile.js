@@ -1,26 +1,41 @@
-import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useContext, useEffect } from 'react';
 import './Profile.css';
+import { useFormWithValidation } from '../../hooks/useForm';
 import SubmitButton from '../SubmitButton/SubmitButton';
+import CurrentUserContext from '../../contexts/CurrentUserContext';
 
-function Profile() {
-  const history = useHistory();
+function Profile({
+  handleChangeInfo, isProfileChangeError, handleLogout,
+  errorMessage, change, setChange
+}) {
 
-  const [change, setChange] = useState(false);
+  const currentUser = useContext(CurrentUserContext);
 
-  const handleClick = (evt) => {
+  const {
+    values, handleChange, resetForm,
+    errors, isValid
+  } = useFormWithValidation();
+
+  useEffect(() => {
+    if (currentUser) {
+      resetForm(currentUser, {}, true);
+    }
+  }, [currentUser, resetForm]);
+
+  const handleClick = evt => {
     evt.preventDefault();
     setChange(true);
   }
 
- const handleSaveClick = (evt) => {
+ const handleSaveClick = evt => {
   evt.preventDefault();
-  setChange(false);
+  setChange();
+  handleChangeInfo(values.name, values.email);
  }
 
-  const handleExitClick = (evt) => {
+  const handleExitClick = evt => {
     evt.preventDefault();
-    history.push('/');
+    handleLogout();
   }
 
   return (
@@ -29,45 +44,59 @@ function Profile() {
         noValidate
         className="profile__form"
         name="form-login"
-        onSubmit={handleClick}
+        onSubmit={handleSaveClick}
       >
         <h1 className="profile__title">
-          Привет, Антон!
+          Привет, {currentUser.name}!
         </h1>
         <label className="profile__label">
           Имя
           <input
-            required
             className="profile__input"
             type="name"
-            defaultValue="Антон"
-            minLength="5"
+            minLength="2"
             maxLength="40"
-            name="name-profile"
+            name="name"
+            onChange={handleChange}
+            value={values.name || ''}
           />
         </label>
+        <span className="profile__error">
+          {errors.name || ''}
+        </span>
         <label className="profile__label">
           E-mail
           <input
-            required
             className="profile__input"
             type="email"
-            defaultValue="qwerty@qwerty.ru"
             minLength="5"
             maxLength="40"
-            name="email-profile"
+            name="email"
+            onChange={handleChange}
+            value={values.email || ''}
           />
         </label>
+        <span className="profile__error">
+          {errors.email || ''}
+        </span>
         {
-          change ?
-            <SubmitButton
-              handleClick={handleSaveClick}
-              btnText="Сохранить"
-            />
-              : (
+          change ? (
+            <>
+              <span className="profile__btn-error">
+                {isProfileChangeError && errorMessage}
+              </span>
+              <SubmitButton
+                handleClick={handleSaveClick}
+                btnText="Сохранить"
+                isDisabled={
+                  !isValid || (Boolean(currentUser.name === values.name) && Boolean(currentUser.email === values.email))
+                }
+              />
+            </>
+          ) : (
             <>
               <button
-                type="submit"
+                type="button"
                 className="profile__btn"
                 onClick={handleClick}
               >

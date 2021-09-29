@@ -3,6 +3,7 @@ import './Portfolio.css';
 import arrow from '../../images/arrow-main.svg';
 
 function Portfolio() {
+
   return (
     <section className="portfolio">
       <div className="portfolio__container">

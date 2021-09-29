@@ -44,6 +44,10 @@
   background-color: #202020;
 }
 
+.navigation__img_landing {
+  background-color: #073042;
+}
+
 @media screen and (min-width: 769px) {
   .navigation__burger {
     display: none;

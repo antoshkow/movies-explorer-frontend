@@ -3,11 +3,10 @@ import { Link, useHistory } from 'react-router-dom';
 import './AuthNavigation.css';
 
 function AuthNavigation() {
+
   const history = useHistory();
 
-  const handleLoginClick = () => {
-    history.push('/signin')
-  }
+  const handleLoginClick = () => history.push('/signin');
 
   return (
     <nav className="auth-nav">

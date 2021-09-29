@@ -1,12 +1,14 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import menuIcon from '../../images/burger_icon.svg';
 import './Navigation.css';
 import NavigationLink from '../NavigationLink/NavigationLink';
 import NavigationButton from '../NavigationButton/NavigationButton';
 
 function Navigation({ handleMenuClick, isActive }) {
+
   const history = useHistory();
+  const location = useLocation();
 
   const handleProfileClick = () => {
     history.push('/profile');
@@ -32,10 +34,15 @@ function Navigation({ handleMenuClick, isActive }) {
       <button
         type="button"
         onClick={handleMenuClick}
-        className={isActive ? 'navigation__burger navigation__burger_active' : 'navigation__burger'}
+        className={
+          isActive ? 'navigation__burger navigation__burger_active' : 'navigation__burger'
+        }
       >
         <img
-          className="navigation__img"
+          className={
+            location.pathname === '/' ?
+              `navigation__img navigation__img_landing` : 'navigation__img'
+          }
           src={menuIcon}
           alt="Иконка взаимодействия с меню"
         />
