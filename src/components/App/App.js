@@ -383,7 +383,7 @@ function App() {
     if (!isFilterOn) {
       setSavedMovies(savedMovies);
       setFilteredSavedMovies(filteredSavedMovies)
-      setIsMoviesLoadError(false);
+      // setIsMoviesLoadError(false);
       setMovies(movies);
       setFilteredMovies(filteredMovies);
     }
@@ -417,10 +417,11 @@ function App() {
 
   // Обнуляем результаты поиска, ошибки, чекбокс
   useEffect(() => {
-    cleanAllErrors();
     setIsFilterOn(false);
     setFilteredSavedMovies(savedMovies);
     setFilteredMovies(filteredMovies);
+    setIsMenuActive(false);
+    setIsAuthChecking(false);
   }, [savedMovies, location.pathname, filteredMovies])
 
   // Проверка токена
