@@ -5,7 +5,8 @@ function Movies({
   onSearch, onError, isMoviesLoading,
   isMoviesLoadError, movies, isFilterOn,
   handleMoreClick, visibleMovies, handleLikeClick,
-  savedMoviesId, savedMovies, handleDeleteClick
+  savedMoviesId, savedMovies, handleDeleteClick,
+  isReqSending
 }) {
 
   return (
@@ -23,6 +24,7 @@ function Movies({
       handleLikeClick={handleLikeClick}
       handleDeleteClick={handleDeleteClick}
       savedMoviesId={savedMoviesId}
+      isReqSending={isReqSending}
     />
   );
 }

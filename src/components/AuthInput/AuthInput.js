@@ -21,7 +21,7 @@ function AuthInput({
         name={inputName}
         onChange={handleInputChange}
         value={value}
-        // autoComplete="off"
+        autoComplete="off"
       />
       <span
         className="auth-input__error"

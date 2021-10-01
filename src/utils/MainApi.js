@@ -96,7 +96,7 @@ export const register = (name, email, password) => {
     credentials: 'include',
     body: JSON.stringify({ name, email, password }),
   })
-    .then(res => checkResponse(res))
+    .then(res => checkResponse(res));
 }
 
 // POST /signout

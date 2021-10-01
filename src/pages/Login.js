@@ -3,7 +3,7 @@ import AuthForm from '../components/AuthForm/AuthForm';
 import AuthInput from '../components/AuthInput/AuthInput';
 import { useFormWithValidation } from '../hooks/useForm';
 
-function Login({ handleLogin }) {
+function Login({ handleLogin, isReqSending }) {
 
   const {
     values, handleChange, resetForm,
@@ -27,7 +27,7 @@ function Login({ handleLogin }) {
       linkTo="/signup"
       linkToText="Регистрация"
       authMod="submit-btn_login"
-      isDisabled={!isValid}
+      isDisabled={!isValid || isReqSending}
     >
       <AuthInput
         inputTitle="E-mail"

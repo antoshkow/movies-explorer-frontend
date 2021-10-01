@@ -6,7 +6,8 @@ import CurrentUserContext from '../../contexts/CurrentUserContext';
 
 function Profile({
   handleChangeInfo, isProfileChangeError, handleLogout,
-  errorMessage, change, setChange
+  errorMessage, change, setChange,
+  isReqSending
 }) {
 
   const currentUser = useContext(CurrentUserContext);
@@ -89,7 +90,7 @@ function Profile({
                 handleClick={handleSaveClick}
                 btnText="Сохранить"
                 isDisabled={
-                  !isValid || (Boolean(currentUser.name === values.name) && Boolean(currentUser.email === values.email))
+                  !isValid || (Boolean(currentUser.name === values.name) && Boolean(currentUser.email === values.email)) || isReqSending
                 }
               />
             </>

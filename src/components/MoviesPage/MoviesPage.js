@@ -11,7 +11,7 @@ function MoviesPage({
   isMoviesLoading, isMoviesLoadError, visibleMovies,
   movies, savedMovies, handleMoreClick,
   isFilterOn, handleLikeClick, handleDeleteClick,
-  savedMoviesId
+  savedMoviesId, isReqSending
 }) {
 
   const location = useLocation();
@@ -23,6 +23,7 @@ function MoviesPage({
           onSearch={onSearch}
           onError={onError}
           isFilterOn={isFilterOn}
+          isReqSending={isReqSending}
         />
       </section>
       <section className="movies__cards">
@@ -65,7 +66,7 @@ function MoviesPage({
                 ) : null
               }
               {
-                location.pathname === '/saved-movies' && savedMovies.length > visibleMovies.length ? (
+                location.pathname === '/saved-movies' && savedMovies.length > visibleMovies.length && savedMovies !== [] ? (
                   <MoviesMoreButton
                     handleMoreClick={handleMoreClick}
                   />

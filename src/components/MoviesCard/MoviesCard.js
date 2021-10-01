@@ -41,7 +41,7 @@ function MoviesCard({
   );
 
   // Переменная для кнопки удалить
-  const cardDeleteBtnText = '🞫';
+  const cardDeleteBtnText = '✖';
 
   // Обработчики лайка и удаления фильма
   const handleLikeMovie = () => {

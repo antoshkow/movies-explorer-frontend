@@ -3,7 +3,10 @@ import { useFormWithValidation } from '../../hooks/useForm';
 import './SearchForm.css';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 
-function SearchForm({ onSearch, onError, isFilterOn }) {
+function SearchForm({
+  onSearch, onError, isFilterOn,
+  isReqSending
+}) {
 
   const {
     values,
@@ -49,6 +52,7 @@ function SearchForm({ onSearch, onError, isFilterOn }) {
         <button
           type="submit"
           className='search-form__btn'
+          disabled={isReqSending}
         />
       </fieldset>
       <fieldset className="search-form__fieldset">
