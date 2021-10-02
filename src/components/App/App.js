@@ -42,8 +42,7 @@ function App() {
   const [isMoviesLoadError, setIsMoviesLoadError] = useState(false);
 
   // Стейты попапа, всплывающего окна, прелоадера
-  const [isTooltipOpened, setIsTooltipOpened] = useState(false);
-  const [tooltipStatus, setTooltipStatus] = useState({});
+  const [tooltipStatus, setTooltipStatus] = useState();
   const [isMenuActive, setIsMenuActive] = useState(false);
   const [isAuthChecking, setIsAuthChecking] = useState(true);
 
@@ -66,7 +65,7 @@ function App() {
   // Обработчик закрытия поп-апов кликом на esc
   const handleCloseClick = () => {
     setIsMenuActive(false);
-    setIsTooltipOpened(false);
+    setTooltipStatus();
   }
 
   // Обработчик закрытия попапа кликом вправо
@@ -159,8 +158,12 @@ function App() {
           setFilteredSavedMovies(result);
         })
         .catch(err => {
-          console.log(err);
-          setIsMoviesLoadError(true);
+          console.log(err.name);
+          if (err === 'Ошибка: 404')
+            setIsMoviesLoadError(404);
+          else
+            setIsMoviesLoadError(true);
+          setIsReqSending(false);
         })
         .finally(() => {
           setIsReqSending(false);
@@ -182,6 +185,7 @@ function App() {
       .catch(err => {
         console.log(err);
         setIsMoviesLoadError(true);
+        setIsReqSending(false);
       })
       .finally(() => setIsReqSending(false));
   }
@@ -195,7 +199,10 @@ function App() {
         setSavedMovies(result);
         setSavedMoviesId(savedMoviesId.filter(id => id !== movieData.movieId));
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        setIsReqSending(false);
+        console.log(err);
+      })
       .finally(() => setIsReqSending(false));
   }
 
@@ -205,7 +212,6 @@ function App() {
       text: 'Нужно ввести ключевое слово',
       iconType: 'fail'
     });
-    setIsTooltipOpened(true);
   }
 
   // Обработчик сабмита регистрации
@@ -217,7 +223,6 @@ function App() {
           text: 'Вы успешно зарегистрировались!',
           iconType: 'success'
         });
-        setIsTooltipOpened(true);
         handleLogin(email, password);
       })
       .catch(err => {
@@ -226,14 +231,13 @@ function App() {
             text: 'Пользователь с таким email уже существует, или не передано одно из полей!',
             iconType: 'fail'
           });
-          setIsTooltipOpened(true);
         } else {
           setTooltipStatus({
             text: 'При регистрации пользователя произошла ошибка.',
             iconType: 'fail'
           });
-          setIsTooltipOpened(true);
         }
+        setIsReqSending(false);
       })
       .finally(() => setIsReqSending(false));
   }
@@ -256,6 +260,7 @@ function App() {
           localStorage.removeItem('savedMovies');
           history.push('/');
           setIsLoggedIn(false);
+          setIsReqSending(false);
           console.log(err);
         })
         .finally(() => {
@@ -275,13 +280,12 @@ function App() {
             text: 'Вы ввели неправильный логин или пароль.',
             iconType: 'fail'
           });
-          setIsTooltipOpened(true);
         } else {
           setTooltipStatus({
             text: 'При авторизации произошла ошибка. Токен не передан или передан не в том формате.',
             iconType: 'fail'
           });
-          setIsTooltipOpened(true);
+          setIsReqSending(false);
         }
       });
   }
@@ -305,7 +309,10 @@ function App() {
         history.push('/');
         cleanAllErrors();
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        setIsReqSending(false);
+        console.log(err);
+      })
       .finally(() => setIsReqSending(false));
   }
 
@@ -319,7 +326,6 @@ function App() {
           text: 'Успешно!',
           iconType: 'success'
         });
-        setIsTooltipOpened(true);
       })
       .catch(err => {
         if (err.name === 'TypeError') {
@@ -327,6 +333,7 @@ function App() {
           setChangeProfileBtn(true);
           setIsProfileChangeError(true);
         }
+        setIsReqSending(false);
       })
       .finally(() => setIsReqSending(false));
   }
@@ -338,8 +345,6 @@ function App() {
     setIsProfileChangeError(false);
     setErrorMessage('');
     setChangeProfileBtn(false);
-    setIsTooltipOpened(false);
-    setTooltipStatus({});
     setIsMenuActive(false);
     setIsAuthChecking(false);
   }
@@ -383,7 +388,6 @@ function App() {
     if (!isFilterOn) {
       setSavedMovies(savedMovies);
       setFilteredSavedMovies(filteredSavedMovies)
-      // setIsMoviesLoadError(false);
       setMovies(movies);
       setFilteredMovies(filteredMovies);
     }
@@ -422,7 +426,11 @@ function App() {
     setFilteredMovies(filteredMovies);
     setIsMenuActive(false);
     setIsAuthChecking(false);
-  }, [savedMovies, location.pathname, filteredMovies])
+  }, [savedMovies, location.pathname, filteredMovies]);
+
+  useEffect(() => {
+    setIsMoviesLoadError(false);
+  }, [location.pathname]);
 
   // Проверка токена
   useEffect(() => {
@@ -616,7 +624,7 @@ function App() {
           />
         </Switch>
         <InfoToolTip
-          isOpen={isTooltipOpened}
+          isOpen={!!tooltipStatus}
           status={tooltipStatus}
           onClose={handleCloseClick}
         />

@@ -31,5 +31,4 @@
 
 5. `ip-адрес сервера`: <code>178.154.255.197</code>
 
-6. [Ссылка на деплой.](antoshkow.movies-explorer.nomoredomains.monster/ "Ссылка на деплой.")
-
+6. [Ссылка на деплой.](https://antoshkow.movies-explorer.nomoredomains.monster/ "Ссылка на деплой.")

@@ -1,3 +1,5 @@
+import { SHORT_FILM } from "../constants/config";
+
 // Сортируем по ключевому слову
 export const handleFilter = (moviesList, value) => {
   let result = [];
@@ -12,7 +14,7 @@ export const handleFilter = (moviesList, value) => {
 export const handleDurationFilter = moviesList => {
   let result = [];
   moviesList.forEach(movie => {
-    if (movie.duration <= 40) result.push(movie);
+    if (movie.duration <= SHORT_FILM) result.push(movie);
   });
   return result;
 }
