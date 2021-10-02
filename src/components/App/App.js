@@ -92,7 +92,7 @@ function App() {
 
   // Обработчик поиска фильмов
   const handleMoviesSearch = value => {
-    if (movies.length > 0 && !isFilterOn) {
+    if (movies.length > 0) {
       const result = handleFilter(movies, value.search);
       if (result.length > 0)
         setIsMoviesLoadError(false);
