@@ -26,12 +26,18 @@ function MoviesCardList({
                       providedDuration={movieDuration(movie.duration)}
                       handleLikeClick={handleLikeClick}
                       handleDeleteClick={handleDeleteClick}
-                      trailer={movie.trailerLink}
-                      country={movie.country}
-                      director={movie.director}
+                      trailer={
+                        movie.trailerLink ?
+                          movie.trailerLink.startsWith('https') ?
+                          movie.trailerLink :
+                          'https://www.youtube.com'
+                        : 'https://www.youtube.com'
+                      }
+                      country={movie.country || 'null'}
+                      director={movie.director || 'null'}
                       year={movie.year}
                       description={movie.description}
-                      nameEN={movie.nameEN}
+                      nameEN={movie.nameEN || 'null'}
                       thumbnail={`https://api.nomoreparties.co${movie.image.formats.thumbnail.url}`}
                       savedMovies={savedMovies}
                       duration={movie.duration}
@@ -61,12 +67,18 @@ function MoviesCardList({
                       duration={movie.duration}
                       handleDeleteClick={handleDeleteClick}
                       handleLikeClick={handleLikeClick}
-                      trailer={movie.trailer}
-                      country={movie.country}
-                      director={movie.director}
+                      trailer={
+                        movie.trailer ?
+                          movie.trailer.startsWith('https') ?
+                          movie.trailer :
+                          'https://www.youtube.com'
+                        : 'https://www.youtube.com'
+                      }
+                      country={movie.country || 'null'}
+                      director={movie.director || 'null'}
                       year={movie.year}
                       description={movie.description}
-                      nameEN={movie.nameEN}
+                      nameEN={movie.nameEN || 'null'}
                       thumbnail={movie.thumbnail}
                       savedMovies={savedMovies}
                       movies={movies}

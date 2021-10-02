@@ -42,7 +42,8 @@ function App() {
   const [isMoviesLoadError, setIsMoviesLoadError] = useState(false);
 
   // Стейты попапа, всплывающего окна, прелоадера
-  const [tooltipStatus, setTooltipStatus] = useState();
+  const [isTooltipOpened, setIsTooltipOpened] = useState(false);
+  const [tooltipStatus, setTooltipStatus] = useState({});
   const [isMenuActive, setIsMenuActive] = useState(false);
   const [isAuthChecking, setIsAuthChecking] = useState(true);
 
@@ -65,7 +66,7 @@ function App() {
   // Обработчик закрытия поп-апов кликом на esc
   const handleCloseClick = () => {
     setIsMenuActive(false);
-    setTooltipStatus();
+    setIsTooltipOpened(false);
   }
 
   // Обработчик закрытия попапа кликом вправо
@@ -91,7 +92,7 @@ function App() {
 
   // Обработчик поиска фильмов
   const handleMoviesSearch = value => {
-    if (movies.length > 0) {
+    if (movies.length > 0 && !isFilterOn) {
       const result = handleFilter(movies, value.search);
       if (result.length > 0)
         setIsMoviesLoadError(false);
@@ -211,6 +212,7 @@ function App() {
       text: 'Нужно ввести ключевое слово',
       iconType: 'fail'
     });
+    setIsTooltipOpened(true);
   }
 
   // Обработчик сабмита регистрации
@@ -222,6 +224,7 @@ function App() {
           text: 'Вы успешно зарегистрировались!',
           iconType: 'success'
         });
+        setIsTooltipOpened(true);
         handleLogin(email, password);
       })
       .catch(err => {
@@ -230,11 +233,13 @@ function App() {
             text: 'Пользователь с таким email уже существует, или не передано одно из полей!',
             iconType: 'fail'
           });
+          setIsTooltipOpened(true);
         } else {
           setTooltipStatus({
             text: 'При регистрации пользователя произошла ошибка.',
             iconType: 'fail'
           });
+          setIsTooltipOpened(true);
         }
         setIsReqSending(false);
       })
@@ -271,7 +276,10 @@ function App() {
             setSavedMovies(res);
             localStorage.setItem('savedMovies', JSON.stringify(res));
           })
-          .catch(err => console.log(err));
+          .catch(err => {
+            console.log(err);
+            setIsReqSending(false);
+          });
       })
       .catch(err => {
         if (err === 'Ошибка: 401') {
@@ -279,11 +287,13 @@ function App() {
             text: 'Вы ввели неправильный логин или пароль.',
             iconType: 'fail'
           });
+          setIsTooltipOpened(true);
         } else {
           setTooltipStatus({
             text: 'При авторизации произошла ошибка. Токен не передан или передан не в том формате.',
             iconType: 'fail'
           });
+          setIsTooltipOpened(true);
           setIsReqSending(false);
         }
       });
@@ -325,6 +335,7 @@ function App() {
           text: 'Успешно!',
           iconType: 'success'
         });
+        setIsTooltipOpened(true);
         setIsProfileChangeError(false);
         setErrorMessage(null);
       })
@@ -366,28 +377,27 @@ function App() {
         const result = handleDurationFilter(filteredMovies);
         if (result.length > 0)
           setIsMoviesLoadError(false);
-        else
+        else {
           setIsMoviesLoadError(404);
+          setTimeout(() => {
+            setIsMoviesLoadError(false);
+          }, 1500);
+        }
         setFilteredDurationMovies(result);
       } else
-        setIsMoviesLoadError(404);
+        setIsMoviesLoadError(false);
     }
     if (isFilterOn && location.pathname === '/saved-movies') {
-      if (filteredSavedMovies === []) {
-        const result = handleDurationFilter(filteredSavedMovies);
-        if (result.length > 0)
+      const result = handleDurationFilter(filteredSavedMovies);
+      if (result.length > 0)
+        setIsMoviesLoadError(false);
+      else {
+        setIsMoviesLoadError(404);
+        setTimeout(() => {
           setIsMoviesLoadError(false);
-        else
-          setIsMoviesLoadError(404);
-        setSavedDurationMovies(result);
-      } else {
-        const result = handleDurationFilter(filteredSavedMovies);
-        if (result.length > 0)
-          setIsMoviesLoadError(false);
-        else
-          setIsMoviesLoadError(404);
-        setSavedDurationMovies(result);
+        }, 1500);
       }
+      setSavedDurationMovies(result);
     }
     if (!isFilterOn) {
       setSavedMovies(savedMovies);
@@ -425,7 +435,6 @@ function App() {
 
   // Обнуляем результаты поиска, ошибки, чекбокс
   useEffect(() => {
-    setIsFilterOn(false);
     setFilteredSavedMovies(savedMovies);
     setFilteredMovies(filteredMovies);
     setIsMenuActive(false);
@@ -433,6 +442,7 @@ function App() {
   }, [savedMovies, location.pathname, filteredMovies]);
 
   useEffect(() => {
+    setIsFilterOn(false);
     setIsMoviesLoadError(false);
     setFilteredMovies([]);
     setFilteredDurationMovies([]);
@@ -630,7 +640,7 @@ function App() {
           />
         </Switch>
         <InfoToolTip
-          isOpen={!!tooltipStatus}
+          isOpen={isTooltipOpened}
           status={tooltipStatus}
           onClose={handleCloseClick}
         />
