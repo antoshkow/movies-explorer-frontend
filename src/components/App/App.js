@@ -158,7 +158,6 @@ function App() {
           setFilteredSavedMovies(result);
         })
         .catch(err => {
-          console.log(err.name);
           if (err === 'Ошибка: 404')
             setIsMoviesLoadError(404);
           else
@@ -326,16 +325,21 @@ function App() {
           text: 'Успешно!',
           iconType: 'success'
         });
+        setIsProfileChangeError(false);
+        setErrorMessage(null);
       })
       .catch(err => {
-        if (err.name === 'TypeError') {
+        console.log(err)
+        if (err === 'Ошибка: 409') {
           setErrorMessage('При обновлении профиля произошла ошибка.');
           setChangeProfileBtn(true);
           setIsProfileChangeError(true);
         }
         setIsReqSending(false);
       })
-      .finally(() => setIsReqSending(false));
+      .finally(() => {
+        setIsReqSending(false);
+      });
   }
 
   // Обработчик сброса ошибок
@@ -430,6 +434,8 @@ function App() {
 
   useEffect(() => {
     setIsMoviesLoadError(false);
+    setFilteredMovies([]);
+    setFilteredDurationMovies([]);
   }, [location.pathname]);
 
   // Проверка токена

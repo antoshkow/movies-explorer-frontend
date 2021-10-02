@@ -17,6 +17,9 @@ const useMediaQuery = () => {
     } else if (window.innerWidth >= MIDDLE_INNER_WIDTH) {
       setDisplayMovies(MIDDLE_MOVIES);
       setMoreDisplayMovies(MORE_MIDDLE_MOVIES);
+    } else if (window.innerWidth < MIDDLE_INNER_WIDTH) {
+      setDisplayMovies(MIN_MOVIES);
+      setMoreDisplayMovies(MORE_MIN_MOVIES);
     } else if (window.innerWidth <= MIN_INNER_WIDTH) {
       setDisplayMovies(MIN_MOVIES);
       setMoreDisplayMovies(MORE_MIN_MOVIES);

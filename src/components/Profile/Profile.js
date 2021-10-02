@@ -60,6 +60,7 @@ function Profile({
             name="name"
             onChange={handleChange}
             value={values.name || ''}
+            autoComplete="off"
           />
         </label>
         <span className="profile__error">
@@ -75,6 +76,7 @@ function Profile({
             name="email"
             onChange={handleChange}
             value={values.email || ''}
+            autoComplete="off"
           />
         </label>
         <span className="profile__error">
