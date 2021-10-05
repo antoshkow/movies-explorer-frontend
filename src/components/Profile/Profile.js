@@ -18,14 +18,13 @@ function Profile({
   } = useFormWithValidation();
 
   useEffect(() => {
-    if (currentUser) {
+    if (currentUser)
       resetForm(currentUser, {}, true);
-    }
   }, [currentUser, resetForm]);
 
   const handleClick = evt => {
     evt.preventDefault();
-    setChange(true);
+    setChange(!change);
   }
 
  const handleSaveClick = evt => {
@@ -95,6 +94,13 @@ function Profile({
                   !isValid || (Boolean(currentUser.name === values.name) && Boolean(currentUser.email === values.email)) || isReqSending
                 }
               />
+                <button
+                type="button"
+                className="profile__btn profile__btn_exit"
+                onClick={handleClick}
+              >
+                Назад
+              </button>
             </>
           ) : (
             <>

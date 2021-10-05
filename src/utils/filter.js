@@ -14,7 +14,8 @@ export const handleFilter = (moviesList, value) => {
 export const handleDurationFilter = moviesList => {
   let result = [];
   moviesList.forEach(movie => {
-    if (movie.duration <= SHORT_FILM) result.push(movie);
+    if (movie.duration <= SHORT_FILM)
+      result.push(movie);
   });
   return result;
 }
@@ -25,3 +26,7 @@ export const handleIdFilter = (moviesList, id) => {
     movie._id !== id
   );
 }
+
+// Обрезаем количество фильмов
+export const handleMediaFilter = (moviesList, visibleMovies) =>
+  moviesList.slice(0, visibleMovies);

@@ -9,9 +9,7 @@ function BurgerMenu({ handleCloseBurgerClick, isActive }) {
 
   const history = useHistory();
 
-  const handleProfileClick = () => {
-    history.push('/profile');
-  }
+  const handleProfileClick = () => history.push('/profile');
 
   return (
     <section

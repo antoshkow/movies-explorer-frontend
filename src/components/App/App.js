@@ -20,7 +20,8 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import * as mainApi from '../../utils/MainApi';
 import * as beatfilmApi from '../../utils/MoviesApi';
 import {
-  handleFilter, handleDurationFilter, handleIdFilter
+  handleFilter, handleDurationFilter, handleIdFilter,
+  handleMediaFilter
 } from '../../utils/filter';
 import useMediaQuery from '../../hooks/useMediaQuery';
 
@@ -38,6 +39,7 @@ function App() {
   const [savedMovies, setSavedMovies] = useState([]);
   const [filteredSavedMovies, setFilteredSavedMovies] = useState([]);
   const [savedDurationMovies, setSavedDurationMovies] = useState([]);
+
   const [isMoviesLoading, setIsMoviesLoading] = useState(false);
   const [isMoviesLoadError, setIsMoviesLoadError] = useState(false);
 
@@ -51,6 +53,7 @@ function App() {
   const [isProfileChangeError, setIsProfileChangeError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [changeProfileBtn, setChangeProfileBtn] = useState(false);
+  const [isSearchRun, setIsSearchRun] = useState(false);
 
   // Стейты карточки
   const [savedMoviesId, setSavedMoviesId] = useState([]);
@@ -59,9 +62,8 @@ function App() {
   const location = useLocation();
 
   // Обработчик открытия поп-ап меню
-  const handleMenuClick = () => {
+  const handleMenuClick = () =>
     setIsMenuActive(!isMenuActive);
-  }
 
   // Обработчик закрытия поп-апов кликом на esc
   const handleCloseClick = () => {
@@ -70,37 +72,45 @@ function App() {
   }
 
   // Обработчик закрытия попапа кликом вправо
-  const handleRightClick = () => {
+  const handleRightClick = () =>
     setIsMenuActive(false);
-  }
 
   // Медиа фильтр
   const media = useMediaQuery();
 
   useEffect(() => {
     media.callback();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname])
 
-  const handleMoreClick = () => {
+  const handleMoreClick = () =>
     media.setDisplayMovies(prevState => prevState + media.moreDisplayMovies);
-  }
 
-  const visibleMovies = filteredMovies.slice(0, media.displayMovies);
-  const visibleDurationMovies = filteredDurationMovies.slice(0, media.displayMovies);
-  const visibleSavedMovies = filteredSavedMovies.slice(0, media.displayMovies);
-  const visibleDurationSavedMovies = savedDurationMovies.slice(0, media.displayMovies);
+  const visibleMovies = handleMediaFilter(filteredMovies, media.displayMovies);
+  const visibleDurationMovies = handleMediaFilter(filteredDurationMovies, media.displayMovies);
+  const visibleSavedMovies = handleMediaFilter(filteredSavedMovies, media.displayMovies);
+  const visibleDurationSavedMovies = handleMediaFilter(savedDurationMovies, media.displayMovies);
 
   // Обработчик поиска фильмов
   const handleMoviesSearch = value => {
+    setIsMoviesLoadError(false);
     if (movies.length > 0) {
+      setIsSearchRun(true);
       const result = handleFilter(movies, value.search);
+      const resultWithDuration = handleDurationFilter(result);
       if (result.length > 0)
         setIsMoviesLoadError(false);
-      else
+      else if (resultWithDuration.length > 0) {
+        setIsMoviesLoadError(false);
+      } else {
         setIsMoviesLoadError(404);
+      }
       setFilteredMovies(result);
+      setFilteredDurationMovies(resultWithDuration);
     } else {
       setIsReqSending(true);
+      setIsSearchRun(true);
+      setIsMoviesLoading(true);
       beatfilmApi.getMovies()
         .then(res => {
           setMovies(res);
@@ -109,23 +119,21 @@ function App() {
         })
         .then(data => {
           const result = handleFilter(data, value.search);
+          const resultWithDuration = handleDurationFilter(result);
           if (result.length > 0)
             setIsMoviesLoadError(false);
-          else
+          else if (resultWithDuration > 0)
+            setIsMoviesLoadError(false);
+          else {
             setIsMoviesLoadError(404);
-          setFilteredMovies(result);
-          if (isFilterOn) {
-            const resultWithDuration = handleDurationFilter(result);
-            if (resultWithDuration.length > 0)
-              setIsMoviesLoadError(false);
-            else
-              setIsMoviesLoadError(404);
-            setFilteredDurationMovies(resultWithDuration);
           }
+          setFilteredMovies(result);
+          setFilteredDurationMovies(resultWithDuration);
         })
         .catch(err => {
           console.log(err);
           setIsMoviesLoadError(true);
+          setIsSearchRun(false);
         })
         .finally(() => {
           setIsMoviesLoading(false);
@@ -138,71 +146,56 @@ function App() {
   const handleSavedMoviesSearch = value => {
     setIsMoviesLoadError(false);
     if (savedMovies.length > 0) {
+      setIsSearchRun(true);
       const result = handleFilter(savedMovies, value.search);
+      const resultWithDuration = handleDurationFilter(result);
       if (result.length > 0)
         setIsMoviesLoadError(false);
-      else
+      else if (resultWithDuration.length > 0)
+        setIsMoviesLoadError(false);
+      else {
         setIsMoviesLoadError(404);
+      }
       setFilteredSavedMovies(result);
+      setSavedDurationMovies(resultWithDuration);
     } else {
-      setIsMoviesLoading(true);
-      setIsReqSending(true);
-      mainApi.getMovies()
-        .then(res => {
-          setSavedMovies(res);
-          localStorage.setItem('savedMovies', JSON.stringify(res));
-          const result = handleFilter(savedMovies, value.search);
-          if (result.length > 0)
-            setIsMoviesLoadError(false);
-          else
-            setIsMoviesLoadError(404);
-          setFilteredSavedMovies(result);
-        })
-        .catch(err => {
-          if (err === 'Ошибка: 404')
-            setIsMoviesLoadError(404);
-          else
-            setIsMoviesLoadError(true);
-          setIsReqSending(false);
-        })
-        .finally(() => {
-          setIsReqSending(false);
-          setIsMoviesLoading(false);
-        });
+      setIsMoviesLoadError(404);
     }
   }
 
   // Обработчики лайка/удаления фильма
-  const handleLikeMovie = (movieData) => {
+  const handleLikeMovie = movieData => {
     setIsReqSending(true);
     mainApi.addSavedMovie(movieData)
       .then(res => {
-        const newSavedMovies = [...savedMovies, res];
+        const newSavedMovies = [res, ...savedMovies];
         localStorage.setItem('savedMovies', JSON.stringify(newSavedMovies));
-        setSavedMovies(prevState => [...prevState, res]);
-        setSavedMoviesId([...savedMoviesId, movieData.movieId]);
+        setSavedMovies(prevState => [res, ...prevState]);
+        setSavedMoviesId([movieData.movieId, ...savedMoviesId]);
+        setSavedDurationMovies(prevState => [res, ...prevState]);
+        setFilteredSavedMovies(prevState => [res, ...prevState]);
       })
       .catch(err => {
         console.log(err);
         setIsMoviesLoadError(true);
-        setIsReqSending(false);
       })
       .finally(() => setIsReqSending(false));
   }
 
-  const handleDeleteMovie = (movieData) => {
+  const handleDeleteMovie = movieData => {
     setIsReqSending(true);
     mainApi.deleteSavedMovie(movieData._id)
-      .then(res => {
+      .then(() => {
         const result = handleIdFilter(savedMovies, movieData._id);
+        const resultWithDuration = handleIdFilter(savedDurationMovies, movieData._id);
         localStorage.setItem('savedMovies', JSON.stringify(result));
         setSavedMovies(result);
+        setFilteredMovies(result);
+        setFilteredSavedMovies(result);
         setSavedMoviesId(savedMoviesId.filter(id => id !== movieData.movieId));
+        setSavedDurationMovies(resultWithDuration);
       })
-      .catch(err => {
-        setIsReqSending(false);
-        console.log(err);
-      })
+      .catch(err => console.log(err))
       .finally(() => setIsReqSending(false));
   }
 
@@ -219,7 +212,7 @@ function App() {
   const handleRegister = (name, email, password) => {
     setIsReqSending(true);
     mainApi.register(name, email, password)
-      .then(res => {
+      .then(() => {
         setTooltipStatus({
           text: 'Вы успешно зарегистрировались!',
           iconType: 'success'
@@ -241,7 +234,6 @@ function App() {
           });
           setIsTooltipOpened(true);
         }
-        setIsReqSending(false);
       })
       .finally(() => setIsReqSending(false));
   }
@@ -249,36 +241,46 @@ function App() {
   // Обработчик сабмита логина
   const handleLogin = (email, password) => {
     setIsReqSending(true);
+    setIsAuthChecking(true);
     mainApi.login(email, password)
-      .then(res => {
+      .then(() => {
         setIsLoggedIn(true);
         history.push('/movies');
         mainApi.getUserInfo()
-        .then(userData => {
-          setIsLoggedIn(true);
-          setCurrentUser(userData);
-        })
-        .catch(err => {
-          localStorage.removeItem('jwt');
-          localStorage.removeItem('movies');
-          localStorage.removeItem('savedMovies');
-          history.push('/');
-          setIsLoggedIn(false);
-          setIsReqSending(false);
-          console.log(err);
-        })
-        .finally(() => {
-          setIsAuthChecking(false);
-          setIsReqSending(false);
+          .then(userData =>
+            setCurrentUser(userData)
+          )
+          .catch(err => {
+            localStorage.removeItem('jwt');
+            localStorage.removeItem('movies');
+            localStorage.removeItem('savedMovies');
+            history.push('/');
+            setIsLoggedIn(false);
+            console.log(err);
+          })
+          .finally(() => {
+            setIsAuthChecking(false);
+            setIsReqSending(false);
         });
+        setIsMoviesLoading(true);
+        setIsSearchRun(true);
         mainApi.getMovies()
           .then(res => {
             setSavedMovies(res);
             localStorage.setItem('savedMovies', JSON.stringify(res));
+            setSavedMoviesId(res.map(movie => movie.movieId));
+            setSavedDurationMovies(handleDurationFilter(res.reverse()));
           })
           .catch(err => {
             console.log(err);
+            if (err === 'Ошибка: 404')
+              setIsMoviesLoadError(404);
+            else
+              setIsMoviesLoadError(true);
+          })
+          .finally(() => {
             setIsReqSending(false);
+            setIsMoviesLoading(false);
           });
       })
       .catch(err => {
@@ -290,38 +292,39 @@ function App() {
           setIsTooltipOpened(true);
         } else {
           setTooltipStatus({
-            text: 'При авторизации произошла ошибка. Токен не передан или передан не в том формате.',
+            text: 'При авторизации произошла ошибка.',
             iconType: 'fail'
           });
           setIsTooltipOpened(true);
-          setIsReqSending(false);
         }
+      })
+      .finally(() => {
+        setIsReqSending(false);
+        setIsAuthChecking(false);
       });
   }
 
   // Обработчик выхода
   const handleLogout = () => {
+    setIsReqSending(true);
+    setMovies([]);
     setSavedMovies([]);
     setFilteredSavedMovies([]);
-    setMovies([]);
-    setIsReqSending(true);
-    setFilteredMovies([]);
-    setSavedMoviesId([]);
-    setFilteredDurationMovies([]);
-    setSavedDurationMovies([]);
     mainApi.logout()
-      .then(res => {
+      .then(() => {
         setIsLoggedIn(false);
+        setFilteredMovies([]);
+        setSavedMoviesId([]);
+        setFilteredDurationMovies([]);
+        setSavedDurationMovies([]);
         localStorage.removeItem('jwt');
         localStorage.removeItem('savedMovies');
         localStorage.removeItem('movies');
         history.push('/');
         cleanAllErrors();
+        setCurrentUser({});
       })
-      .catch(err => {
-        setIsReqSending(false);
-        console.log(err);
-      })
+      .catch(err => console.log(err))
       .finally(() => setIsReqSending(false));
   }
 
@@ -340,17 +343,14 @@ function App() {
         setErrorMessage(null);
       })
       .catch(err => {
-        console.log(err)
+        console.log(err);
         if (err === 'Ошибка: 409') {
           setErrorMessage('При обновлении профиля произошла ошибка.');
           setChangeProfileBtn(true);
           setIsProfileChangeError(true);
         }
-        setIsReqSending(false);
       })
-      .finally(() => {
-        setIsReqSending(false);
-      });
+      .finally(() => setIsReqSending(false));
   }
 
   // Обработчик сброса ошибок
@@ -362,13 +362,9 @@ function App() {
     setChangeProfileBtn(false);
     setIsMenuActive(false);
     setIsAuthChecking(false);
+    setIsReqSending(false);
+    setIsSearchRun(false);
   }
-
-  // Получаем массив сохраненных фильмов
-  useEffect(() => {
-    const actualSaved = localStorage.getItem('savedMovies');
-    setSavedMovies(JSON.parse(actualSaved));
-  }, [savedMovies]);
 
   // Отрисовываем фильтрованные чекбоксом фильмы
   useEffect(() => {
@@ -377,39 +373,132 @@ function App() {
         const result = handleDurationFilter(filteredMovies);
         if (result.length > 0)
           setIsMoviesLoadError(false);
-        else {
+        else if (isSearchRun) {
           setIsMoviesLoadError(404);
-          setTimeout(() => {
-            setIsMoviesLoadError(false);
-          }, 1500);
         }
         setFilteredDurationMovies(result);
-      } else
+      } else if (!isSearchRun)
         setIsMoviesLoadError(false);
     }
     if (isFilterOn && location.pathname === '/saved-movies') {
       const result = handleDurationFilter(filteredSavedMovies);
-      if (result.length > 0)
-        setIsMoviesLoadError(false);
-      else {
-        setIsMoviesLoadError(404);
-        setTimeout(() => {
+      console.log(result)
+      if (savedMovies.length > 0) {
+        if (result.length > 0)
           setIsMoviesLoadError(false);
-        }, 1500);
-      }
-      setSavedDurationMovies(result);
+        else
+          setIsMoviesLoadError(404);
+        setSavedDurationMovies(result);
+      } else if (!isSearchRun)
+        setIsMoviesLoadError(false);
     }
     if (!isFilterOn) {
       setSavedMovies(savedMovies);
-      setFilteredSavedMovies(filteredSavedMovies)
       setMovies(movies);
       setFilteredMovies(filteredMovies);
+      if (filteredMovies.length > 0)
+        setIsMoviesLoadError(false);
+      if (filteredSavedMovies.length > 0)
+        setIsMoviesLoadError(false);
     }
   }, [
-    isFilterOn, filteredMovies, filteredSavedMovies,
-    location.pathname, movies.length, savedMovies,
-    movies
+    isFilterOn, location.pathname, isSearchRun,
+    movies.length, savedMovies, savedMovies.length,
+    filteredSavedMovies, filteredMovies, movies
   ]);
+
+  // Обнуляем результаты поиска, ошибки, чекбокс
+  useEffect(() => {
+    setFilteredMovies(filteredMovies);
+    setIsMenuActive(false);
+    setIsAuthChecking(false);
+  }, [
+    savedMovies, location.pathname, filteredMovies,
+  ]);
+
+  useEffect(() => {
+    setIsFilterOn(false);
+    setIsSearchRun(false);
+    setIsMoviesLoadError(false);
+    setFilteredMovies([]);
+    setFilteredDurationMovies([]);
+    setFilteredSavedMovies(savedMovies);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.pathname]);
+
+  // Проверка токена
+  useEffect(() => {
+    const jwt = localStorage.getItem('jwt');
+    const moviesFromLocal = JSON.parse(localStorage.getItem('movies'));
+    const savedMoviesFromLocal = JSON.parse(localStorage.getItem('savedMovies'));
+    if (jwt) {
+      setIsLoggedIn(true);
+      setIsAuthChecking(true);
+      if (moviesFromLocal)
+        setMovies(moviesFromLocal);
+      if (savedMoviesFromLocal) {
+        setSavedMovies(savedMoviesFromLocal.reverse());
+        setFilteredSavedMovies(savedMoviesFromLocal.reverse());
+        setSavedMoviesId(savedMoviesFromLocal.map(movie => movie.movieId));
+        setSavedDurationMovies(handleDurationFilter(savedMoviesFromLocal.reverse()));
+      }
+      mainApi.getUserInfo()
+        .then(userData =>
+          setCurrentUser(userData)
+        )
+        .catch(err => {
+          localStorage.removeItem('jwt');
+          localStorage.removeItem('movies');
+          localStorage.removeItem('savedMovies');
+          history.push('/');
+          setIsLoggedIn(false);
+          cleanAllErrors();
+          setMovies([]);
+          setSavedMovies([]);
+          setSavedDurationMovies([]);
+          setFilteredSavedMovies([]);
+          setSavedMoviesId([]);
+          setCurrentUser({});
+          console.log(err);
+        })
+        .finally(() => setIsAuthChecking(false))
+      if (!savedMoviesFromLocal) {
+        setIsMoviesLoading(true);
+        setIsReqSending(true);
+        mainApi.getMovies()
+          .then(moviesData => {
+            setSavedMoviesId(moviesData.map(movie => movie.movieId));
+            setSavedMovies(moviesData.reverse());
+            setFilteredSavedMovies(moviesData.reverse());
+            localStorage.setItem('savedMovies', JSON.stringify(moviesData.reverse()));
+          })
+          .catch(err => {
+            console.log(err);
+            if (err === 'Ошибка: 404')
+              setIsMoviesLoadError(false);
+            else
+              setIsMoviesLoadError(true);
+          })
+          .finally(() => {
+            setIsReqSending(false);
+            setIsMoviesLoading(false);
+          });
+      }
+    } else {
+      localStorage.removeItem('jwt');
+      localStorage.removeItem('movies');
+      localStorage.removeItem('savedMovies');
+      history.push('/');
+      setIsLoggedIn(false);
+      cleanAllErrors();
+      setMovies([]);
+      setSavedMovies([]);
+      setSavedDurationMovies([]);
+      setFilteredSavedMovies([]);
+      setSavedMoviesId([]);
+      setCurrentUser({});
+    }
+  }, [history]);
 
   // Слушатель: закрытие кликом на клавишу
   useEffect(() => {
@@ -432,58 +521,6 @@ function App() {
     }
     window.addEventListener('click', handleOverlayClose);
   }, []);
-
-  // Обнуляем результаты поиска, ошибки, чекбокс
-  useEffect(() => {
-    setFilteredSavedMovies(savedMovies);
-    setFilteredMovies(filteredMovies);
-    setIsMenuActive(false);
-    setIsAuthChecking(false);
-  }, [savedMovies, location.pathname, filteredMovies]);
-
-  useEffect(() => {
-    setIsFilterOn(false);
-    setIsMoviesLoadError(false);
-    setFilteredMovies([]);
-    setFilteredDurationMovies([]);
-  }, [location.pathname]);
-
-  // Проверка токена
-  useEffect(() => {
-    const jwt = localStorage.getItem('jwt');
-    const movies = localStorage.getItem('movies');
-    const savedMovies = localStorage.getItem('savedMovies');
-    if (jwt) {
-      setIsLoggedIn(true);
-      setIsAuthChecking(true);
-      if (movies) setMovies(JSON.parse(movies));
-      if (savedMovies) setSavedMovies(JSON.parse(savedMovies));
-      mainApi.getUserInfo()
-        .then(userData => {
-          setCurrentUser(userData);
-        })
-        .catch(err => {
-          localStorage.removeItem('jwt');
-          localStorage.removeItem('movies');
-          localStorage.removeItem('savedMovies');
-          history.push('/');
-          setIsLoggedIn(false);
-          console.log(err);
-        })
-        .finally(() => {
-          setIsAuthChecking(false);
-        })
-      mainApi.getMovies()
-        .then(moviesData =>
-          setSavedMoviesId(moviesData.map(movie => movie.movieId))
-        )
-        .catch(err => console.log(err))
-    } else {
-      setIsAuthChecking(false);
-      history.push('/');
-      setIsLoggedIn(false);
-    }
-  }, [history]);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>

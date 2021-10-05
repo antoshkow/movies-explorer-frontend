@@ -5,9 +5,7 @@ function FilterCheckbox({ isFilterOn }) {
 
   const checked = useRef();
 
-  const handleChange = () => {
-    isFilterOn(checked.current.checked);
-  }
+  const handleChange = () => isFilterOn(checked.current.checked);
 
   return (
     <div className="filter-checkbox">

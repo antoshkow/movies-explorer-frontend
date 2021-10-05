@@ -10,9 +10,7 @@ function Navigation({ handleMenuClick, isActive }) {
   const history = useHistory();
   const location = useLocation();
 
-  const handleProfileClick = () => {
-    history.push('/profile');
-  }
+  const handleProfileClick = () => history.push('/profile');
 
   return (
     <nav className="navigation">

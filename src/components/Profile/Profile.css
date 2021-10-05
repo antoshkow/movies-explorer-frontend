@@ -71,7 +71,6 @@
   font-size: 13px;
   line-height: 16px;
 
-  margin-bottom: 16px;
   padding: 0;
 
   border: none;
@@ -95,6 +94,7 @@
   color: #EE3465;
 
   margin-bottom: 0;
+  margin-top: 16px;
 }
 
 .profile__error {

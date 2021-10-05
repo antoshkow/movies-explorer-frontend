@@ -109,6 +109,5 @@ export const logout = () => {
     },
     credentials: 'include',
   })
-    .then(res => checkResponse(res))
-    .then(res => localStorage.removeItem('jwt'));
+    .then(res => checkResponse(res));
 }

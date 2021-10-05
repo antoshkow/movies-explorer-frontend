@@ -31,7 +31,7 @@ function SearchForm({
       id="search-form"
       onSubmit={handleSubmit}
     >
-      <fieldset
+      <div
         className="search-form__fieldset search-form__fieldset_left "
       >
         <label className="search-form__search">
@@ -54,12 +54,12 @@ function SearchForm({
           className='search-form__btn'
           disabled={isReqSending}
         />
-      </fieldset>
-      <fieldset className="search-form__fieldset">
+      </div>
+      <div className="search-form__fieldset">
         <FilterCheckbox
           isFilterOn={isFilterOn}
         />
-      </fieldset>
+      </div>
     </form>
   );
 }

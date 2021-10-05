@@ -22,15 +22,15 @@ function MoviesCard({
   }
 
   // Проверяем есть ли лайк
-    const handleIsLiked = (movieData, savedMoviesId) => {
-      if (movieData.movieId) {
-        return savedMoviesId.some(e => e === movieData.movieId);
-      }
+  const handleIsLiked = (movieData, savedMoviesId) => {
+    if (movieData.movieId) {
+      return savedMoviesId.some(e => e === movieData.movieId);
     }
+  }
 
-  const isLiked = handleIsLiked(movieData, savedMoviesId)
+  const isLiked = handleIsLiked(movieData, savedMoviesId);
 
-  const savedMovie = savedMovies.find(item => item.movieId === movieId)
+  const savedMovie = savedMovies.find(item => item.movieId === movieId);
 
   // Переменная для кнопки лайка
   const cardLikeButtonClassName = (
@@ -44,13 +44,10 @@ function MoviesCard({
   const cardDeleteBtnText = '✖';
 
   // Обработчики лайка и удаления фильма
-  const handleLikeMovie = () => {
-    isLiked ? handleDeleteClick(savedMovie) : handleLikeClick(movieData)
-  }
+  const handleLikeMovie = () =>
+    isLiked ? handleDeleteClick(savedMovie) : handleLikeClick(movieData);
 
-  const handleDeleteMovie = () => {
-    handleDeleteClick(movieData);
-  }
+  const handleDeleteMovie = () => handleDeleteClick(movieData);
 
   return (
     <li className="movies-card">

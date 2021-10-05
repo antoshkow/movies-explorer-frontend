@@ -2,8 +2,8 @@ import React from 'react';
 import './SubmitButton.css';
 
 function SubmitButton({
-  handleClick, btnText,
-  authMod, isDisabled
+  handleClick, btnText, authMod,
+  isDisabled
 }) {
 
   return (
