@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import './NavigationLink.css';
 
 function NavigationLink({ linkTo, linkText }) {
+
   return (
     <NavLink
       exact

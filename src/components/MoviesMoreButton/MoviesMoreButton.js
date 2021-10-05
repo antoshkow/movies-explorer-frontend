@@ -1,10 +1,7 @@
 import React from 'react';
 import './MoviesMoreButton.css';
 
-function MoviesMoreButton({ handleClick }) {
-  const handleMoreClick =() => {
-    handleClick();
-  }
+function MoviesMoreButton({ handleMoreClick }) {
 
   return (
     <button

@@ -4,8 +4,9 @@ import './AuthInput.css';
 function AuthInput({
   inputTitle, inputType, inputMinLength,
   inputMaxLength, inputName, inputErrorId,
-  inputError
+  inputError, handleInputChange, value
 }) {
+
   return (
     <>
       <p className="auth-input__placeholder">
@@ -18,6 +19,9 @@ function AuthInput({
         minLength={inputMinLength}
         maxLength={inputMaxLength}
         name={inputName}
+        onChange={handleInputChange}
+        value={value}
+        autoComplete="off"
       />
       <span
         className="auth-input__error"

@@ -1,10 +1,27 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useFormWithValidation } from '../../hooks/useForm';
 import './SearchForm.css';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 
-function SearchForm() {
+function SearchForm({
+  onSearch, onError, isFilterOn,
+  isReqSending
+}) {
+
+  const {
+    values,
+    handleChange,
+    resetForm,
+    isValid,
+  } = useFormWithValidation();
+
+  useEffect(() => {
+    resetForm({});
+  }, [resetForm]);
+
   const handleSubmit = (evt) => {
     evt.preventDefault();
+    isValid ? onSearch(values) : onError();
   }
 
   return (
@@ -14,7 +31,7 @@ function SearchForm() {
       id="search-form"
       onSubmit={handleSubmit}
     >
-      <fieldset
+      <div
         className="search-form__fieldset search-form__fieldset_left "
       >
         <label className="search-form__search">
@@ -26,17 +43,23 @@ function SearchForm() {
             type="text"
             minLength="1"
             maxLength="40"
-            name="name-search"
+            name="search"
+            onChange={handleChange}
+            value={values.search || ''}
+            autoComplete="off"
           />
         </label>
         <button
           type="submit"
-          className="search-form__btn"
+          className='search-form__btn'
+          disabled={isReqSending}
         />
-      </fieldset>
-      <fieldset className="search-form__fieldset">
-        <FilterCheckbox />
-      </fieldset>
+      </div>
+      <div className="search-form__fieldset">
+        <FilterCheckbox
+          isFilterOn={isFilterOn}
+        />
+      </div>
     </form>
   );
 }

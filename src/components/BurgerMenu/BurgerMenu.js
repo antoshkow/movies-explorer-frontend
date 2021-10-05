@@ -1,12 +1,20 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import closeIcon from '../../images/close_icon.svg';
 import './BurgerMenu.css';
 import NavigationLink from '../NavigationLink/NavigationLink';
 import NavigationButton from '../NavigationButton/NavigationButton';
 
-function BurgerMenu({ handleCloseBurgerClick, handleProfileClick, isActive }) {
+function BurgerMenu({ handleCloseBurgerClick, isActive }) {
+
+  const history = useHistory();
+
+  const handleProfileClick = () => history.push('/profile');
+
   return (
-    <section className={isActive ? 'burger burger_active' : 'burger'}>
+    <section
+      className={isActive ? 'burger burger_active' : 'burger'}
+    >
       <div
         className={isActive ? 'burger__menu burger__menu_active' : 'burger__menu'}
       >

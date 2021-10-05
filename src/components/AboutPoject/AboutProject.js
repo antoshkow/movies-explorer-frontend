@@ -2,6 +2,7 @@ import React from 'react';
 import './AboutProject.css';
 
 function AboutProject() {
+
   return (
     <section className="about-project">
       <div className="about-project__container">
@@ -24,12 +25,20 @@ function AboutProject() {
           </div>
         </div>
         <div className="about-project__band">
-          <div className="about-project__band-back">1 неделя</div>
-          <div className="about-project__band-front">4 недели</div>
+          <div className="about-project__band-back">
+            1 неделя
+          </div>
+          <div className="about-project__band-front">
+            4 недели
+          </div>
         </div>
         <div className="about-project__band">
-          <div className="about-project__band-back about-project__band-back_bottom">Back-end</div>
-          <div className="about-project__band-front about-project__band-front_bottom">Front-end</div>
+          <div className="about-project__band-back about-project__band-back_bottom">
+            Back-end
+          </div>
+          <div className="about-project__band-front about-project__band-front_bottom">
+            Front-end
+          </div>
         </div>
       </div>
     </section>

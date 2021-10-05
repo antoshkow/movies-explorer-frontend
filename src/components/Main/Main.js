@@ -7,7 +7,6 @@ import Techs from '../Techs/Techs';
 import AboutMe from '../AboutMe/AboutMe';
 import Portfolio from '../Portfolio/Portfolio';
 
-
 function Main() {
   return (
     <main className="main">
@@ -15,20 +14,20 @@ function Main() {
         <Promo />
       </div>
       <LandingTitle
-        title={'О проекте'}
-        mod={''}
+        title="О проекте"
+        mod=""
       />
       <AboutProject />
       <div className="main__techs">
         <LandingTitle
-          title={'Технологии'}
-          mod={'landing-title__title_techs'}
+          title="Технологии"
+          mod="landing-title__title_techs"
         />
         <Techs />
       </div>
       <LandingTitle
-          title={'Студент'}
-          mod={''}
+          title="Студент"
+          mod=""
         />
       <AboutMe />
       <Portfolio />

@@ -54,12 +54,17 @@
 
   padding: 0px;
 
-  outline: none;
   border: none;
+  outline: none;
 
   color: #fff;
 
   background: transparent;
+}
+
+.search-form__input:focus {
+  outline: none;
+  border-bottom: 1px solid #4285F4;
 }
 
 .search-form__btn {
