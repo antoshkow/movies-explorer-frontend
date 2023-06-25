@@ -1,4 +1,4 @@
-const BASE_URL = 'https://api.antoshkow.movies-exp.nomoredomains.monster';
+const BASE_URL = 'https://antoshkow-movies-explorer-api-a0c3f1feb873.herokuapp.com';
 const BEATFILM_URL = 'https://api.nomoreparties.co/beatfilm-movies';
 
 const checkResponse = (res) => {

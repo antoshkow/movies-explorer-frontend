@@ -48,7 +48,7 @@ function Portfolio() {
           <li className="portfolio__link-border">
             <a
               className="portfolio__link"
-              href="https://antoshkow.mesto.nomoredomains.club"
+              href="https://antoshkow-mesto.netlify.app/"
               target="_blank"
               rel="noreferrer"
             >
