@@ -1,34 +1,34 @@
 # MoviesExplorer
 
-## Дипломный проект курса 'Web разработчик' Яндекс.Практикум
+## Graduation project of the course 'Web developer' Yandex.Practicum.
 
-1. Дипломный проект MoviesExplorer.
+1. Project MoviesExplorer.
 
-2. Сервис, в котором можно найти фильмы по запросу и сохранить в личном кабинете.
-Сайт состоит из нескольких страниц:
-- Главная. Содержит информацию о выполненном проекте.
-- Страница с фильмами. На ней есть форма поиска фильмов и блок с результатами поиска.
-- Страница с сохранёнными фильмами. Показывает фильмы, сохранённые пользователем.
-- Страница регистрации. Позволяет пользователю зарегистрировать аккаунт.
-- Страница авторизации. На ней пользователь может войти в систему.
-- Страница редактирования профиля. Пользователь может изменить данные своего аккаунта.<br>
-`!!! Фильтрация данных на стороне клиента, а также подгрузка фильмов только после поиска выполнены в учебных целях в соответствии с ТЗ !!!`
+2. A service where you can find movies on demand and save them in your account.
+The site consists of several pages:
+- Main page. Contains information about the completed project.
+- Films page. It has a movie search form and a block with search results.
+- Saved movies page. Shows movies saved by the user.
+- Registration page. Allows the user to register an account.
+- Authorization page. Here the user can log in.
+- Profile editing page. The user can change his account information.<br>
+`!!! Filtering data on the client side, as well as uploading films only after searching, were performed for educational purposes in accordance with the specification !!!`
 
-3. Применяемые технологии:
+3. Stack:
+  - framework React JS;
+  - CRA;
+  - React-hooks;
+  - library react-router-dom;
+  - the code is written using functional components;
+  - localStorage, httpOnly Cookie, JWT;
+  - working with external API;
   - flexbox;
   - grid layout;
-  - адаптивная отзывчивая верстка;
-  - валидация форм;
-  - framework React JS;
-  - код написан с использованием функциональных компонентов;
-  - используется CRA;
-  - React-хуки;
-  - библиотека react-router-dom;
-  - localStorage, httpOnly Cookie, JWT;
-  - работа с внешним API.
+  - adaptive responsive layout;
+  - form validation.
 
-4. Системные требования: язык HTML5/CSS3/JavaScript; web-браузер (браузер автора - Opera); фреймворк - React (create-react-app, react-router-dom).
+4. System preferences: HTML5/CSS3/JavaScript; web-browser (dev browser – Opera); framework – React (create-react-app, react-router-dom).
 
-5. `ip-адрес сервера`: <code>178.154.255.197</code>
+5. [server heroku address.](https://antoshkow-movies-explorer-api-a0c3f1feb873.herokuapp.com/ "server heroku address.")
 
-6. [Ссылка на деплой.](https://antoshkow.movies-explorer.nomoredomains.monster/ "Ссылка на деплой.")
+6. [deployed on netlify.](https://antoshkow.movies-explorer.nomoredomains.monster/ "deployed on netlify.")
