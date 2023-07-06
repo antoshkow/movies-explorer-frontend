@@ -31,4 +31,4 @@ The site consists of several pages:
 
 5. [server heroku address.](https://antoshkow-movies-explorer-api-a0c3f1feb873.herokuapp.com/ "server heroku address.")
 
-6. [deployed on netlify.](antoshkow-movies-explorer.netlify.app/ "deployed on netlify.")
+6. [deployed on netlify.](https://antoshkow-movies-explorer.netlify.app/ "deployed on netlify.")
