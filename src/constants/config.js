@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:3005';
+const BASE_URL = 'https://movies-explorer-api-u3c9.onrender.com';
 const BEATFILM_URL = 'https://api.nomoreparties.co/beatfilm-movies';
 
 const checkResponse = (res) => {
