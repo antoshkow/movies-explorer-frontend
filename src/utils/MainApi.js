@@ -6,7 +6,8 @@ export const getMovies = () => {
     method: 'GET',
     headers: {
       'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('jwt')}`
     },
     credentials: 'include',
   })
@@ -19,7 +20,8 @@ export const addSavedMovie = (movieData) => {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('jwt')}`
     },
     credentials: 'include',
     body: JSON.stringify(movieData),
@@ -33,7 +35,8 @@ export const deleteSavedMovie = (movieId) => {
     method: 'DELETE',
     headers: {
       'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('jwt')}`
     },
     credentials: 'include',
   })
@@ -46,7 +49,8 @@ export const getUserInfo = () => {
     method: 'GET',
     headers: {
       'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('jwt')}`
     },
     credentials: 'include',
   })
@@ -59,7 +63,8 @@ export const editProfile = (name, email) => {
     method: 'PATCH',
     headers: {
       'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('jwt')}`
     },
     credentials: 'include',
     body: JSON.stringify({ name, email }),
